@@ -28,9 +28,10 @@
             <!-- Example card images -->
             <?php
             $imgPath = giveMeARandomCard();
+            $imgPath2 = giveMeARandomCard();
             ?>
             <img src="<?= isset($_POST["hit"]) ? $imgPath : '../img/default.PNG' ?>" alt="Card Back">
-            <img src="../img/default.PNG" alt="Card Back">
+            <img src="<?= isset($_POST["hit"]) ? $imgPath2 : '../img/default.PNG' ?>" alt="Card Back">
         </div>
 
         <!-- Player's Hand -->
@@ -53,9 +54,8 @@
 
 
             if (isset($_POST["hit"])) {
-            ?>
-                <img src="<?= giveMeARandomCard() ?>">
-            <?php
+                $imgTag = '<img src=' . giveMeARandomCard() . '>';
+                echo $imgTag;
             }
             if (isset($_POST["refreshBtn"])) {
                 header("Refresh:0");
