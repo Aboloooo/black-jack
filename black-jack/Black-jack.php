@@ -26,8 +26,11 @@
         <!-- Dealer's Hand -->
         <div class="hand" id="dealer-hand">
             <!-- Example card images -->
-            <img src="images/card-back.png" alt="Card Back">
-            <img src="images/card-back.png" alt="Card Back">
+            <?php
+            $imgPath = giveMeARandomCard();
+            ?>
+            <img src="<?= isset($_POST["hit"]) ? $imgPath : '../img/default.PNG' ?>" alt="Card Back">
+            <img src="../img/default.PNG" alt="Card Back">
         </div>
 
         <!-- Player's Hand -->
@@ -36,23 +39,22 @@
             <?php
             function giveMeARandomCard()
             {
-                /* $differentTypeOfCard = ["clubs", "diamonds", "hearts", "spades"];
-                $numberOfCart = rand(1, 13);
+
+                $differentTypeOfCard = ["clubs", "diamonds", "hearts", "spades"];
+                $randomCartNumber = rand(1, 13);
                 $randomN = rand(0, 3);
                 $randomCardType =  $differentTypeOfCard[$randomN];
                 for ($i = 0; $i < count($differentTypeOfCard); $i++) {
                     if ($randomCardType == $differentTypeOfCard[$i]) {
-                        return "../img/" . $differentTypeOfCard[$i] . "/" . $numberOfCart . ".PNG";
+                        return "../img/" . $differentTypeOfCard[$i] . "/" . $randomCartNumber . ".PNG";
                     }
-                } */
-                $randomNumbers = [];
-                $randomN = rand(0, 3);
+                }
             }
-            $imgPath = giveMeARandomCard();
+
 
             if (isset($_POST["hit"])) {
             ?>
-                <img src="<?= $imgPath ?>">
+                <img src="<?= giveMeARandomCard() ?>">
             <?php
             }
             if (isset($_POST["refreshBtn"])) {
