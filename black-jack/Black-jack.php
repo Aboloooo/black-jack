@@ -6,6 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack Game</title>
     <link rel="stylesheet" href="../style.css">
+    <style>
+        body {
+            background-image: url("../img/background.jpg");
+        }
+
+        .chips {
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        .chips h2 {
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,6 +34,14 @@
     }
 
     ?>
+    <div class="chips">
+        <h2>Bet now!</h2>
+        <img src="../img/chips/5.PNG" class="chip5" alt="">
+        <img src="../img/chips/10.PNG" class="chip10" alt="">
+        <img src="../img/chips/25.PNG" class="chip25" alt="">
+        <img src="../img/chips/100.PNG" class="chip100" alt="">
+        <img src="../img/chips/500.PNG" class="chip500" alt="">
+    </div>
     <div class="game-container">
         <h1>Black-jack</h1>
 
@@ -54,7 +76,8 @@
 
 
             if (isset($_POST["hit"])) {
-                $imgTag = '<img src=' . giveMeARandomCard() . '>';
+                $randomCard = giveMeARandomCard();
+                $imgTag = '<img src=' . $randomCard . '>';
                 echo $imgTag;
             }
             if (isset($_POST["refreshBtn"])) {
