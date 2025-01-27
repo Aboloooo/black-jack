@@ -9,6 +9,9 @@
     <style>
         body {
             background-image: url("../img/background.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
         }
 
         .chips {
