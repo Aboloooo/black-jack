@@ -30,10 +30,30 @@
     if (!isset($_SESSION)) {
         session_start();
     }
+    if (!isset($_SESSION["numberOfHittedBtn"])) {
+        $_SESSION["numberOfHittedBtn"] = 0;
+    }
+    if (!isset($_SESSION["generatedCards"])) {
+        $_SESSION["generatedCards"] = [];
+    }
 
     $refreshBtn = false;
     if (isset($_POST["hit"])) {
         $refreshBtn = true;
+    }
+    function giveMeARandomCard()
+    {
+        $differentTypeOfCard = ["clubs", "diamonds", "hearts", "spades"];
+        $randomCartNumber = rand(1, 13);
+        $randomN = rand(0, 3);
+        $randomCardType =  $differentTypeOfCard[$randomN];
+        for ($i = 0; $i < count($differentTypeOfCard); $i++) {
+            if ($randomCardType == $differentTypeOfCard[$i]) {
+                return "<img src='../img/" . $differentTypeOfCard[$i] . "/" . $randomCartNumber . ".PNG'>";
+            }else {
+                return "<img src='../img/default.PNG' alt=''>";
+            }
+        }
     }
 
     ?>
@@ -51,40 +71,34 @@
         <!-- Dealer's Hand -->
         <div class="hand" id="dealer-hand">
             <!-- Example card images -->
-            <?php
-            $imgPath = giveMeARandomCard();
-            $imgPath2 = giveMeARandomCard();
-            ?>
-            <img src="<?= isset($_POST["hit"]) ? $imgPath : '../img/default.PNG' ?>" alt="Card Back">
-            <img src="<?= isset($_POST["hit"]) ? $imgPath2 : '../img/default.PNG' ?>" alt="Card Back">
+            <img src="<?= isset($_POST["hit"]) ? giveMeARandomCard() : '../img/default.PNG' ?>" alt="Card Back">
         </div>
 
         <!-- Player's Hand -->
         <div class="hand" id="player-hand">
             <!-- Example card images -->
-            <?php
-            function giveMeARandomCard()
-            {
-
-                $differentTypeOfCard = ["clubs", "diamonds", "hearts", "spades"];
-                $randomCartNumber = rand(1, 13);
-                $randomN = rand(0, 3);
-                $randomCardType =  $differentTypeOfCard[$randomN];
-                for ($i = 0; $i < count($differentTypeOfCard); $i++) {
-                    if ($randomCardType == $differentTypeOfCard[$i]) {
-                        return "../img/" . $differentTypeOfCard[$i] . "/" . $randomCartNumber . ".PNG";
+            <?php             
+            if (isset($_POST["hit"])) {
+                $_SESSION["numberOfHittedBtn"]++;
+            }
+                                                           /* create an arrray to save the cards */
+            
+            if($_SESSION["numberOfHittedBtn"] > 0 && isset($_POST["hit"])){
+                for($i = 0; $i < $_SESSION["numberOfHittedBtn"] ; $i++){
+                    giveMeARandomCard();
+                    array_push($_SESSION["generatedCards"], giveMeARandomCard());
+                    for($i = 0; $i < count($_SESSION["generatedCards"]) ; $i++){
+                        $_SESSION["generatedCards"][$i];
                     }
                 }
+            }else{
+                echo '<img src="../img/default.PNG">';
             }
 
-
-            if (isset($_POST["hit"])) {
-                $randomCard = giveMeARandomCard();
-                $imgTag = '<img src=' . $randomCard . '>';
-                echo $imgTag;
-            }
             if (isset($_POST["refreshBtn"])) {
                 header("Refresh:0");
+                session_unset();
+                session_destroy();
             }
             ?>
         </div>
@@ -98,6 +112,21 @@
             <br>
             <?= $refreshBtn ? "<button name='refreshBtn'>Refresh</button>" : "" ?>
 
+            <select name="selection" id="">
+                <option value="1"
+                <?php
+                if(isset($_POST["selection"]) && $_POST["selection"] == "1"){print("selected");}
+                ?>>1</option>
+                <option value="2"<?php
+                if(isset($_POST["selection"]) && $_POST["selection"] == "2"){print("selected");}else{print("selected");}
+                ?> >2</option>
+                <option value="3" <?php
+                if(isset($_POST["selection"]) && $_POST["selection"] == "3"){print("selected");}
+                ?>>3</option>
+                <option value="4"<?php
+                if(isset($_POST["selection"]) && $_POST["selection"] == "4"){print("selected");}
+                ?>>4</option>
+            </select>
         </form>
 
 
