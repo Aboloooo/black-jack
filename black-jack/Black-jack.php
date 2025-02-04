@@ -46,8 +46,8 @@
         $_SESSION["DealerCards"] = [];
     }
 
-    $sumOfPlayerHand = 0 ;
-    $sumOfDealerHand = 0 ;
+    $sumOfPlayerHand = 0;
+    $sumOfDealerHand = 0;
 
     $refreshBtn = false;
     if (isset($_POST["hit"])) {
@@ -59,11 +59,8 @@
         $randomCartNumber = rand(1, 13);
         $randomN = rand(0, 3);
         $randomCardType =  $differentTypeOfCard[$randomN];
-        for ($i = 0; $i < count($differentTypeOfCard); $i++) {
-            if ($randomCardType == $differentTypeOfCard[$i]) {
-                return "<img src='../img/" . $differentTypeOfCard[$i] . "/" . $randomCartNumber . ".PNG'>";
-            }
-        }
+
+        return [$randomCardType, $randomCartNumber];
     }
 
     ?>
@@ -83,8 +80,9 @@
             <!-- Example card images -->
             <?php
             if ($_SESSION["numberOfHittedBtn"] == 1 && isset($_POST["hit"])) {
-                $_SESSION["firstCard"] = giveMeARandomCard();
-                array_push($_SESSION["DealerCards"], $_SESSION["firstCard"]);
+                list($randomCardT, $randomCardN) = giveMeARandomCard();
+                $_SESSION["firstCard"] = '<img src="../img/' . $randomCardT . '/' . $randomCardN . '.PNG">';
+                array_push($_SESSION["DealerCards"], $randomCardN);
                 echo $_SESSION["firstCard"];
                 echo '<img src="../img/default.PNG">';
             } else {
@@ -105,9 +103,10 @@
 
             if ($_SESSION["numberOfHittedBtn"] > 0 && isset($_POST["hit"])) {
                 for ($i = 0; $i < $_SESSION["numberOfHittedBtn"]; $i++) {
-                    giveMeARandomCard();
-                    array_push($_SESSION["playerHand"], giveMeARandomCard());
-                    array_push($_SESSION["DealerHand"], giveMeARandomCard());
+                    list($randomCardT, $randomCardN) = giveMeARandomCard();
+                    $randomCard = '<img src="../img/' . $randomCardT . '/' . $randomCardN . '.PNG">';
+
+                    array_push($_SESSION["playerHand"], $randomCard);
                     for ($i = 0; $i < count($_SESSION["playerHand"]); $i++) {
                         echo $_SESSION["playerHand"][$i];
                     }
@@ -122,7 +121,7 @@
                 session_destroy();
             }
             ?>
-            
+
         </div>
 
         <!-- Buttons for actions -->
