@@ -39,6 +39,15 @@
     if (!isset($_SESSION["DealerHand"])) {
         $_SESSION["DealerHand"] = [];
     }
+    if (!isset($_SESSION["firstCard"])) {
+        $_SESSION["firstCard"] = ""; // Initialize firstCard in session for dealer
+    }
+    if (!isset($_SESSION["DealerCards"])) {
+        $_SESSION["DealerCards"] = [];
+    }
+
+    $sumOfPlayerHand = 0 ;
+    $sumOfDealerHand = 0 ;
 
     $refreshBtn = false;
     if (isset($_POST["hit"])) {
@@ -72,13 +81,16 @@
         <!-- Dealer's Hand -->
         <div class="hand" id="dealer-hand">
             <!-- Example card images -->
-            <!--  <img src="<?= isset($_POST["hit"]) ? giveMeARandomCard() : '../img/default.PNG' ?>" alt="Card Back"> -->
             <?php
-            if (count($_SESSION["DealerHand"]) == 1) {
-                $_SESSION["DealerHand"][1];
-                echo "<img src='../img/default.PNG'>";
+            if ($_SESSION["numberOfHittedBtn"] == 1 && isset($_POST["hit"])) {
+                $_SESSION["firstCard"] = giveMeARandomCard();
+                array_push($_SESSION["DealerCards"], $_SESSION["firstCard"]);
+                echo $_SESSION["firstCard"];
+                echo '<img src="../img/default.PNG">';
+            } else {
+                echo $_SESSION["firstCard"];
+                echo '<img src="../img/default.PNG">';
             }
-
             ?>
         </div>
 
@@ -110,42 +122,16 @@
                 session_destroy();
             }
             ?>
+            
         </div>
 
         <!-- Buttons for actions -->
         <form class="buttons" method="post">
-
             <button id="hit-btn" name="hit">Hit</button>
             <button id="stand-btn" name="stand">Stand</button>
             <br>
             <br>
             <?= $refreshBtn ? "<button name='refreshBtn'>Refresh</button>" : "" ?>
-
-            <select name="selection" id="">
-                <option value="1"
-                    <?php
-                    if (isset($_POST["selection"]) && $_POST["selection"] == "1") {
-                        print("selected");
-                    }
-                    ?>>1</option>
-                <option value="2" <?php
-                                    if (isset($_POST["selection"]) && $_POST["selection"] == "2") {
-                                        print("selected");
-                                    } else {
-                                        print("selected");
-                                    }
-                                    ?>>2</option>
-                <option value="3" <?php
-                                    if (isset($_POST["selection"]) && $_POST["selection"] == "3") {
-                                        print("selected");
-                                    }
-                                    ?>>3</option>
-                <option value="4" <?php
-                                    if (isset($_POST["selection"]) && $_POST["selection"] == "4") {
-                                        print("selected");
-                                    }
-                                    ?>>4</option>
-            </select>
         </form>
 
 
