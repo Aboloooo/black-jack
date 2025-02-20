@@ -52,6 +52,15 @@
     $refreshBtn = false;
     if (isset($_POST["hit"])) {
         $refreshBtn = true;
+        $_SESSION["numberOfHittedBtn"]++;
+    }
+
+    $revealDealerHand = false;
+    if (isset($_POST["stand"])) {
+        $revealDealerHand = true;
+        list($cardType, $cardN) = giveMeARandomCard();
+        /* loop will continue until reach or gets furder than player point */
+        /* while{} */
     }
     function giveMeARandomCard()
     {
@@ -79,15 +88,27 @@
         <div class="hand" id="dealer-hand">
             <!-- Example card images -->
             <?php
+            $sum = 0;
             if ($_SESSION["numberOfHittedBtn"] == 1 && isset($_POST["hit"])) {
                 list($randomCardT, $randomCardN) = giveMeARandomCard();
+                /* $sumOfPlayerHand += $randomCardN; */
                 $_SESSION["firstCard"] = '<img src="../img/' . $randomCardT . '/' . $randomCardN . '.PNG">';
                 array_push($_SESSION["DealerCards"], $randomCardN);
+                for ($i = 0; $i < count($_SESSION["DealerCards"]); $i++) {
+                    $sum += $_SESSION["DealerCards"][$i];
+                }
+                echo $sum;
                 echo $_SESSION["firstCard"];
-                echo '<img src="../img/default.PNG">';
+
+                if (!$revealDealerHand) {
+                    echo '<img src="../img/default.PNG">';
+                }
             } else {
                 echo $_SESSION["firstCard"];
-                echo '<img src="../img/default.PNG">';
+                if (!$revealDealerHand) {
+                    echo '<img src="../img/default.PNG">';
+                }
+                echo $sum;
             }
             ?>
         </div>
@@ -96,9 +117,6 @@
         <div class="hand" id="player-hand">
             <!-- Example card images -->
             <?php
-            if (isset($_POST["hit"])) {
-                $_SESSION["numberOfHittedBtn"]++;
-            }
             /* create an arrray to save the cards */
 
             if ($_SESSION["numberOfHittedBtn"] > 0 && isset($_POST["hit"])) {
