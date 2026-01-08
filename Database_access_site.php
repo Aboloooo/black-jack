@@ -38,10 +38,14 @@
 
             if ($result) {
                 $counter = 0;
+    ?>
+                <h2>Result for: </h2>
+                <?php
                 while ($row = mysqli_fetch_assoc($result)) {
                     $counter++;
-    ?>
+                ?>
                     <?= $counter ?>: <?= $row[$tableC] ?>
+                    <br>
     <?php
                 }
             } else {
