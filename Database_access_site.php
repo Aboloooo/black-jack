@@ -39,7 +39,7 @@
             if ($result) {
                 $counter = 0;
     ?>
-                <h2>Result for: </h2>
+                <h2>Result for: <?= $tableN ?> table and <?= $tableC ?> column</h2>
                 <?php
                 while ($row = mysqli_fetch_assoc($result)) {
                     $counter++;
