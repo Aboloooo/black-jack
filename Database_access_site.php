@@ -32,8 +32,9 @@
     $counter = 0;
     if (isset($_POST['submitBtn'])) {
         if (!empty($_POST['tableN']) && !empty($_POST['tableC'])) {
-            $tableInfo = $conn->prepare("SELECT ? FROM ?");
-            $tableInfo->bind_param("ss", $_POST['tableN'], $_POST['tableC']);
+            $tableN = $_POST['tableN'];
+            $tableC = $_POST['tableC'];
+            $tableInfo = $conn("SELECT $tableN FROM $tableC");
             $tableInfo->execute();
             $result = $tableInfo->get_result();
             if ($result) {
