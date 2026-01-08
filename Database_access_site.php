@@ -29,19 +29,19 @@
         <input type="submit" name="submitBtn" value="submit">
     </form>
     <?php
-    $counter = 0;
     if (isset($_POST['submitBtn'])) {
         if (!empty($_POST['tableN']) && !empty($_POST['tableC'])) {
             $tableN = $_POST['tableN'];
             $tableC = $_POST['tableC'];
-            $tableInfo = $conn("SELECT $tableN FROM $tableC");
-            $tableInfo->execute();
-            $result = $tableInfo->get_result();
+            $query = ("SELECT $tableC FROM $tableN");
+            $result = mysqli_query($conn, $query);
+
             if ($result) {
-                $counter++;
-                while ($row = $result->fetch_assoc()) {
+                $counter = 0;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $counter++;
     ?>
-                    <?= $counter ?>: <?= $row[$_POST['tableC']] ?>
+                    <?= $counter ?>: <?= $row[$tableC] ?>
     <?php
                 }
             } else {
